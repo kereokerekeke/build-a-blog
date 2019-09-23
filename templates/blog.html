@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href='/newpost?blog_id={{blog_id}}'>Make a new post</a>
+
+    {% if posts|length != 0 %}
+        {% for post in posts %}
+            <h1><a href='/post?post_id={{post.id}}'>{{post.title}}</a></h1>
+            <h3>{{post.body}}</h3>
+            <h5>Created on: {{post.created_at}}</h5>
+            <hr/>
+        {% endfor %}
+    {% else %}
+        <h3 style='text-align: center;'>No posts here yet</h3>
+    {% endif %}
+
+{% endblock %}

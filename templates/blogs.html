@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <a href='/newblog'>Make a new blog</a>
+
+    {% if blogs|length != 0 %}
+        {% for blog in blogs %}
+            <h1><a href='/blog?blog_id={{blog.id}}'>{{blog.title}}</a></h1>
+            <hr/>
+        {% endfor %}
+    {% else %}
+        <h3 style='text-align: center;'>No blogs here yet</h3>
+    {% endif %}
+
+{% endblock %}
