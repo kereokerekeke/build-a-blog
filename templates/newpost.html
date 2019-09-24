@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form action='/newpost?blog_id={{blog_id}}' method='POST'>
-        <label for='title'>Title</label>
-        <input type='text' id='title' name='title' />
+
+    {% if update != True %}
+        <form action='/newpost?blog_id={{blog_id}}' method='POST' class="mx-auto" style="width: 50%; padding-top: 15vh;">
+            <h3>New Post</h3>
+    {% else %}
+        <form action='/update_post?post_id={{post_id}}' method='POST' class="mx-auto" style="width: 50%; padding-top: 15vh;">
+            <h3>Update Post</h3>
+    {% endif %}
+        
+        <div class="form-group"
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name ='title' placeholder="Title">
+        </div>
+        <div class="form-group mx-auto">
+            <label for="body">Body</label>
+            <textarea class="form-control" id="body" name='body' rows="3"></textarea>
+        </div>
         <br>
-        <label for='body'>Body:</label>
-        <input type="text" id='body' name='body' />
-        <br>
-        <input type="submit" value="Post" />
+        <input type="submit" value="Post" class="btn btn-primary"/>
     </form>
 {% endblock %}

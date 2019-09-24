@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/register" method="post" class="mx-auto" style="width: 30%; padding-top: 15vh;">
+    <h1 style="text-align: center;">Register</h1>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" name="username" type="username" aria-describedby=username placeholder="Enter username" value="{{ username }}">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input class="form-control" name="email" type="email" aria-describedby="email" placeholder="Enter email" value="{{ email }}">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" name="password" type="password" aria-describedby="password" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="verify">Verify Password</label>
+        <input class="form-control" name="verify" type="password" aria-describedby="verify" placeholder="Verify password">
+    </div>
+
+    <input type="submit" value="Register" class="btn btn-primary">
+</form>
+
+{% endblock %}

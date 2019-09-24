@@ -1,14 +1,46 @@
 {% extends 'base.html' %}
 
+{% block nav_element %}
+        <li class="nav-item">
+            <a class="nav-link" href='/newpost?blog_id={{blog_id}}' abindex="-1" aria-disabled="false">Make a new post</a>
+        </li>
+        <li class="nav-item">
+            <form action="/delete_blog" method="POST">
+                <button type="submit" name="blog_id" value="{{blog_id}}" class="nav-link" style="border:none; background-color: transparent; padding-top: 1vh ">Delete blog</button>
+            </form>
+        </li>
+{% endblock %}
+
 {% block content %}
-    <a href='/newpost?blog_id={{blog_id}}'>Make a new post</a>
+
+    
+    <div class="mx-auto" style="text-align: center; padding-bottom: 1vh;">
+        <h3>Posts</h3>
+    </div>
 
     {% if posts|length != 0 %}
         {% for post in posts %}
-            <h1><a href='/post?post_id={{post.id}}'>{{post.title}}</a></h1>
-            <h3>{{post.body}}</h3>
-            <h5>Created on: {{post.created_at}}</h5>
-            <hr/>
+            <div class="card mb-3 mx-auto" style="width: 70%;">
+                    <div class="row no-gutters">
+                      <div class="col-md-2" style="background-color: grey;">
+                        <div class="mx-auto" style="width: fit-content; ">
+                            <img src="https://www.farmercost.com/images/userpic.png" style="width: 10vh; padding-top: 20%;"/>
+                            <p class="card-text mx-auto" style="text-align: center;">
+                                <small style="color: white; font-weight: normal; font-size: 2vh;"> 
+                                    {{post.username}}
+                                </small>
+                            </p>
+                        </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title"><a href='/post?post_id={{post.id}}'>{{post.title}}</a></h5>
+                          <p class="card-text">{{post.body}}</p>
+                      <p class="card-text"><small class="text-muted">Created at: {{post.created_at}}</small></p>
+                    </div>
+                  </div>
+                </div>
+            </div>
         {% endfor %}
     {% else %}
         <h3 style='text-align: center;'>No posts here yet</h3>

@@ -1,8 +1,27 @@
 {% extends 'base.html' %}
 
+{% block nav_element %}
+        <li class="nav-item">
+            <a class="nav-link" href='/blog?blog_id={{post.blog_id}}' abindex="-1" aria-disabled="false">Back to blog</a>
+        </li>
+{% endblock %}
+
 {% block content %}
 
-        <h1 style='text-align: center;'>{{post.title}}</a></h1>
-        <h4>{{post.body}}</h3>
+        <div class="card mx-auto" style="width: 70%;">
+            <div class="card-body">
+                <h2 style='text-align: center;'>{{post.title}}</a></h2>
+                <p>{{post.body}}</p>
+            </div>
+        </div>
+
+        <div class="mx-auto" style="width: fit-content; margin-top: 2vh;">
+                <form action='/delete_post' method="POST" style="display: inline-block;">
+                    <button class="btn btn-danger" type="submit" name='post_id' value="{{post.id}}" > Delete post </button>
+                </form>
+                <form action='/update_post' method="GET" style="display: inline-block;">
+                    <button class="btn btn-success" type="submit" name='post_id' value="{{post.id}}" > Update post </button>
+                </form>
+            </div>
 
 {% endblock %}

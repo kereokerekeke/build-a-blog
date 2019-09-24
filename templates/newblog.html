@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form action='/newblog' method='POST'>
-        <label for='title'>Title</label>
-        <input type='text' id='title' name='title' />
-        <input type="submit" value="Create new blog" />
+    <form action='/newblog' method='POST' class="mx-auto" style="width: 50%; padding-top: 20vh;">
+        <h3>New Blog</h3>
+        <br>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name ='title' placeholder="Title">
+        </div>
+        <input type="submit" value="Post" class="btn btn-primary"/>
     </form>
 {% endblock %}
