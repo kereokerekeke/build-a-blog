@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<div class="mx-auto" style="width: 30%; margin-top: 15vh;">
+<div class="mx-auto" style="width: 50%; margin-top: 15vh;">
     <h1>Log in</h1>
     <p>If you don't have an account, you may <a href="/register">register</a> for one</p>
 </div>
 
-<form action="/login" method="post" class="mx-auto" style="width: 30%;">
+<form action="/login" method="post" class="mx-auto" style="width: 50%;">
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
           <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value="{{ email }}">
