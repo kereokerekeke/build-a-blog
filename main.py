@@ -63,7 +63,7 @@ def check_validity(type, string):
             error = True
         if type == 'Email' and ((string.count('@') != 1) or (string.count('.') != 1)):
             error = True
-    elif type != 'Email':
+    else:
         error = True
     
     if error:
@@ -92,7 +92,7 @@ def login():
             return redirect('/')
         else:
             flash('User password is incorrect or user does not exist', category="alert-danger")
-            pass
+            return redirect('/')
 
     return render_template('login.html')    
     
@@ -120,8 +120,6 @@ def register():
         password = request.form['password']
         verify = request.form['verify']
 
-        # TODO - put the server-side validation in
-
         username_error = check_validity('Username', username)
         password_error = check_validity('Password', password)
             
@@ -133,10 +131,10 @@ def register():
         if not username_error and not password_error and not verify_error and not email_error:
             pass
         else:
-            for error in [username_error, password_error, verify_error, email_error]:
-                if error:
-                    flash(error, category="alert-danger")
-                    return redirect('/')
+            for err in [username_error, email_error, password_error, verify_error]:
+                if err:
+                    flash(err, category="alert-danger")
+        return redirect('/register')
 
         existing_user = User.query.filter_by(email=email).first()
 
@@ -147,8 +145,8 @@ def register():
             session['email'] = email
             return redirect('/')
         else:
-            # TODO duplicate user
-            pass 
+            flash('User already exists', category='alert-danger')
+            return redirect('/register')
 
     return render_template('register.html')    
     
@@ -177,7 +175,6 @@ def post():
     post_id = request.args.get('post_id')
     post = Post.query.filter_by(id=post_id).first()
     
-    
     return render_template('post.html', 
                            title='post',
                            post=post)
@@ -198,10 +195,10 @@ def new_post():
             return redirect('/newpost?blog_id={blog_id}'.format(blog_id=blog_id))
         db.session.add(new_post)
         db.session.commit()
+        flash('Post created', category='alert-success')
         return redirect('/post?post_id={post_id}'.format(post_id=new_post.id))
-        
+    
     return render_template('newpost.html',
-                           title='Add post',
                            blog_id=blog_id)
 
 
@@ -215,12 +212,12 @@ def new_blog():
         if blog_title:
             db.session.add(new_blog)
             db.session.commit()
+            flash('Blog created', category='alert-success') 
             return redirect('/')
         else:
+            flash('Title can not be empty', category='alert-danger')
             return redirect('/newblog')
-        # TODO - flash message with error
-        
-        
+           
     return render_template('newblog.html',
                            title='Add blog')
 
@@ -233,6 +230,7 @@ def delete_post():
         blog_id = post.blog_id
         db.session.delete(post)
         db.session.commit()
+        flash('Post deleted', category='alert-success')
         return redirect('/blog?blog_id={blog_id}'.format(blog_id=blog_id))
     
 
@@ -243,12 +241,16 @@ def delete_blog():
         blog = Blog.query.filter_by(id=blog_id).first()
         db.session.delete(blog)
         db.session.commit()
+        flash('Blog deleted', category='alert-success')
         return redirect('/')
     
 @app.route('/update_post', methods=['GET', 'POST'])
 def update_post():
     
     post_id = request.args.get('post_id')
+    post = Post.query.filter_by(id=post_id).first()
+    title=post.title
+    body=post.body
     
     if request.method == 'POST':
         post = Post.query.filter_by(id=post_id).first()
@@ -259,10 +261,11 @@ def update_post():
         flash('Post updated', category="alert-success")
         return redirect('/post?post_id={post_id}'.format(post_id=post_id))
     else:
-        
         return render_template('newpost.html',
                             update=True,
-                            post_id=post_id)
+                            post_id=post_id,
+                            title=title,
+                            body=body)
     
 
 @app.route('/')
